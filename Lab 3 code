@@ -1,0 +1,77 @@
+import java.util.Scanner;
+
+class Books {
+    String name;
+    String author;
+    int price;
+    int num_pages;
+
+    Books(String name, String author, int price, int num_pages) {
+        this.name = name;
+        this.author = author;
+        this.price = price;
+        this.num_pages = num_pages;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getName() {
+        return "Book name: " + this.name + "\n";
+    }
+
+    public void setAuthor(String author) {
+        this.author = author;
+    }
+
+    public String getAuthor() {
+        return "Author: " + this.author + "\n";
+    }
+
+    public void setPrice(int price) {
+        this.price = price;
+    }
+
+    public int getPrice() {
+        return this.price;
+    }
+
+    public void setPages(int num_pages) {
+        this.num_pages = num_pages;
+    }
+
+    public int getPages() {
+        return this.num_pages;
+    }
+}
+
+class Main {
+    public static void main(String args[]) {
+        Scanner s = new Scanner(System.in);
+        int n;
+        String name;
+        String author;
+        int price;
+        int num_pages;
+        int i;
+
+        System.out.println("Enter the number of book entries");
+        n = s.nextInt();
+        Books b[] = new Books[n];
+
+        System.out.println("Enter the name of the book, author name, price and book pages:");
+        for (i = 0; i < n; i++) {
+            name = s.next();
+            author = s.next();
+            price = s.nextInt();
+            num_pages = s.nextInt();
+            b[i] = new Books(name, author, price, num_pages);
+        }
+
+        for (i = 0; i < n; i++) {
+            System.out.println("Book details are:");
+            System.out.println(b[i].getName() + b[i].getAuthor() + "Book price: " + b[i].getPrice() + "\nNumber of pages: " + b[i].getPages());
+        }
+    }
+}
