@@ -1,0 +1,137 @@
+import java.util.Scanner;
+
+abstract class Account {
+    String name;
+    int accno;
+    String type;
+    Account(String name, int accno, String type) {
+        this.name = name;
+        this.accno = accno;
+        this.type = type;
+    }
+    final int min_balance = 300;
+}
+
+class Savings extends Account {
+    int balance;
+    Savings(String name, int accno, String type, int balance) {
+        super(name, accno, type);
+        this.balance = balance;
+    }
+    void deposit(int amount) {
+        balance += amount;
+    }
+    void interest() {
+        double interest;
+        final double rate = 0.2;
+        System.out.println("Compound interest:");
+        interest = balance * rate / 100;
+        System.out.println(interest);
+    }
+    void withdraw(int amount) {
+        balance -= amount;
+    }
+    void display() {
+        System.out.println("Customer name: " + this.name);
+        System.out.println("Account number: " + this.accno);
+        System.out.println("Type of Account: " + this.type);
+        System.out.println("Balance: " + this.balance);
+    }
+}
+
+class Current extends Account {
+    int balance;
+    Current(String name, int accno, String type, int balance) {
+        super(name, accno, type);
+        this.balance = balance;
+    }
+    void deposit(int amount) {
+        balance += amount;
+    }
+    void withdraw(int amount) {
+        balance -= amount;
+    }
+    void penaltyCheck() {
+        if (balance < min_balance) {
+            int penalty = 300;
+            balance -= penalty;
+            System.out.println("You have 0 or negative balance due to penalty: " + this.balance);
+        } else {
+            System.out.println("No penalty");
+        }
+    }
+    void display() {
+        System.out.println("Customer name: " + this.name);
+        System.out.println("Account number: " + this.accno);
+        System.out.println("Type of Account: " + this.type);
+        System.out.println("Balance: " + balance);
+    }
+}
+
+class Bank {
+    public static void main(String args[]) {
+        Scanner s = new Scanner(System.in);
+        System.out.println("Enter customer name:");
+        String name = s.next();
+        System.out.println("Enter account number:");
+        int accno = s.nextInt();
+        int balance = 0;
+        Current c=new Current(name,accno,"current",balance);
+        Savings s1=new Savings(name,accno,"savings",balance);
+        while (true) {
+            System.out.println("--MENU--");
+            System.out.println("1. Deposit 2. Withdraw 3. Compute interest for Savings account 4. Display account details 5. Exit");
+            System.out.println("Enter your choice:");
+            int choice = s.nextInt();
+            
+            switch (choice) {
+                case 1:
+                    System.out.println("Enter the type of account:");
+                    String type = s.next();
+                    System.out.println("Enter the deposit amount:");
+                    int amount = s.nextInt();
+                    if (type.equals("current")) {
+                        c.deposit(amount);
+                    } else {
+                        s1.deposit(amount);
+                    }
+                    break;
+                case 2:
+                    System.out.println("Enter the type of account:");
+                    String type1 = s.next();
+                    System.out.println("Enter the withdraw amount:");
+                    int amount1 = s.nextInt();
+                    if (type1.equals("current")) {
+                        c.withdraw(amount1);
+                        c.penaltyCheck();
+                    } else {
+                        s1.withdraw(amount1);
+                    }
+                    break;
+                case 3:
+                    System.out.println("Enter the type of account:");
+                    String type2 = s.next();
+                    if (type2.equals("current")) {
+                        System.out.println("No interest provided");
+                        break;
+                    } else {
+                        s1.interest();
+                    }
+                    break;
+                case 4:
+                    System.out.println("Enter the type of account:");
+                    String type3 = s.next();
+                    if (type3.equals("current")) {
+                        c.penaltyCheck();
+                        c.display();
+                    } else {
+                        s1.display();
+                    }
+                    break;
+                case 5:
+                    System.out.println("Invalid choice");
+                    System.exit(0);
+            }
+        }
+    }
+}
